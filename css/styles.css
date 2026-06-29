@@ -1,0 +1,155 @@
+/* ═══════════════════════════════════════════════════════════════
+   Dashboard UV – SENAMHI – styles.css
+   Enfoque: JPG a pantalla completa + overlays absolutos dinámicos
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Variables ────────────────────────────────────────────── */
+:root {
+    --font:         'Nunito', 'Segoe UI', Arial, sans-serif;
+
+    /* Colores UV para los círculos */
+    --uv-verde:     #3dba4e;
+    --uv-amarillo:  #f5c800;
+    --uv-naranja:   #f27800;
+    --uv-rojo:      #e52020;
+    --uv-morado:    #8b22b5;
+
+    --nombre-gap:       1.5%;   /* separación círculo–nombre (se ajusta también vía JS) */
+    --sombra-circulo:   0 2px 8px rgba(0,0,0,0.28);
+}
+
+/* ── Reset mínimo ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;          /* nunca debe aparecer scroll, ni en F11 */
+}
+
+body {
+    font-family: var(--font);
+    background: #07111f;       /* franjas visibles si la proporción no llena la pantalla */
+    position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD – contenedor principal, a pantalla completa
+   El tamaño exacto (ancho/alto en px) lo calcula app.js para
+   que coincida siempre con la proporción real de la imagen,
+   tipo "object-fit: contain" centrado en la ventana.
+═══════════════════════════════════════════════════════════ */
+.dashboard {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    line-height: 0;             /* evita espacio fantasma bajo la imagen */
+}
+
+/* ── Imagen plantilla ─────────────────────────────────────── */
+.plantilla {
+    display: block;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   OVERLAY de ciudades – cubre exactamente la imagen
+═══════════════════════════════════════════════════════════ */
+.overlay-ciudades {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CIUDAD ITEM – elemento por ciudad
+   Posicionado de forma absoluta por app.js mediante
+   style="left: X%; top: Y%"
+═══════════════════════════════════════════════════════════ */
+.ciudad-item {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: var(--nombre-gap);
+    /* El punto de anclaje (left/top) apunta al borde IZQUIERDO del círculo,
+       así todas las ciudades de una misma columna quedan alineadas a la izquierda */
+    transform: translate(0%, -50%);
+}
+
+/* ── Círculo UV ───────────────────────────────────────────── */
+.ciudad-circulo {
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font);
+    font-weight: 900;
+    color: #fff;
+    box-shadow: var(--sombra-circulo);
+    transition: background-color 0.45s ease, transform 0.2s ease;
+    line-height: 1;
+    /* width/height/font-size se aplican inline desde JS */
+}
+
+/* Texto oscuro para el nivel amarillo (fondo claro) */
+.uv-amarillo { color: #3a2800 !important; }
+
+/* ── Nombre ciudad ────────────────────────────────────────── */
+.ciudad-nombre {
+    font-family: var(--font);
+    font-weight: 800;
+    color: #1a3a7a;
+    white-space: nowrap;
+    line-height: 1;
+    /* El font-size se aplica inline desde JS para escalar con el contenedor */
+    text-shadow: 0 1px 3px rgba(255,255,255,0.65);
+}
+
+/* ── Clases de color UV ───────────────────────────────────── */
+.uv-verde    { background: var(--uv-verde);    }
+.uv-amarillo { background: var(--uv-amarillo); }
+.uv-naranja  { background: var(--uv-naranja);  }
+.uv-rojo     { background: var(--uv-rojo);     }
+.uv-morado   { background: var(--uv-morado);   }
+
+/* ═══════════════════════════════════════════════════════════
+   BOTÓN LATERAL — Exportar PNG
+═══════════════════════════════════════════════════════════ */
+.btn-exportar {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 10px;
+    background: #1a3a7a;
+    color: #fff;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    font-family: var(--font);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.25);
+    transition: background 0.2s, padding-right 0.2s;
+    writing-mode: horizontal-tb;
+}
+.btn-exportar:hover   { background: #2a5aaa; padding-right: 16px; }
+.btn-exportar:active  { background: #123066; }
+.btn-exportar .icono-exportar { font-size: 1.1rem; line-height: 1; }
+.btn-exportar.exportando { opacity: 0.6; cursor: wait; }
+
+@media (max-width: 480px) {
+    .btn-exportar { padding: 10px 7px; font-size: 0.68rem; }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Radiación UV – SENAMHI Perú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!--
+    DASHBOARD – pantalla completa
+    ─────────────────────────────────────────────────────────
+    El JPG es el fondo completo, escalado para ocupar toda la
+    pantalla (modo "contain") manteniendo su proporción.
+    Sobre él se superponen únicamente los círculos UV + nombre
+    de cada ciudad.
+    ─────────────────────────────────────────────────────────
+-->
+<div class="dashboard" id="dashboard">
+
+    <!-- ── Imagen base (plantilla) ── -->
+    <img
+        class="plantilla"
+        id="plantilla"
+        src="img/SO - Radiación solar.jpg"
+        alt="Dashboard Índice UV – SENAMHI"
+        draggable="false"
+    >
+
+    <!-- ── Overlay: 12 ciudades (generado por app.js) ── -->
+    <div class="overlay-ciudades" id="overlay-ciudades">
+        <!-- Los .ciudad-item se insertan aquí dinámicamente -->
+    </div>
+
+</div><!-- /dashboard -->
+
+<!-- ── Botón lateral: exportar como PNG ── -->
+<button class="btn-exportar" id="btn-exportar" title="Exportar como imagen PNG">
+    <span class="icono-exportar">⬇</span>
+    <span class="texto-exportar">Exportar</span>
+</button>
+
+<script src="js/app.js"></script>
+</body>
+</html>
